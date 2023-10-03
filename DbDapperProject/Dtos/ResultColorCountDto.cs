@@ -2,7 +2,7 @@
 {
     public class ResultColorCountDto
     {
-        public string COLOR { get; set; }
+        public string? COLOR { get; set; }
         public int ColorCount { get; set; }
     }
 }

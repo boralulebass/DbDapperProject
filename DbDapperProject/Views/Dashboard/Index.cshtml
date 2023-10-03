@@ -1,8 +1,258 @@
-﻿
+﻿@using System.Web;
+@model DashboardResultViewModel
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/Layout.cshtml";
+    int count = 0;
 }
 
-<h2>ıNDEX</h2>
+
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div id="chartdiv" style="width:700px; height:500px">
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div id="chartdivfuel" style="width:700px; height:500px">
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+<h2>En Çok Kullanılan Araba Modelleri</h2>
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Araç Sayısı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ResultMostBrandAndModels)
+            {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@item.BRAND</td>
+                    <td>@item.MODEL</td>
+                    <td>@item.PlateCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<hr />
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-lg-6 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>Vites: @Model.ResultShiftTypeCounts.ShiftType</h3>
+
+                <p>Araç Sayısı: @Model.ResultShiftTypeCounts.CarCount</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <span class="small-box-footer">En Çok Kullanılan Vites Türü ve Araç Sayısı</span>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-6 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>Şehir Plakası: @Model.ResultMostPlateByCities.CITYNR<sup style="font-size: 20px"></sup></h3>
+
+                <p>Plaka Sayısı: @Model.ResultMostPlateByCities.PlateCount</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <span class="small-box-footer">En Az Plakaya Sahip İl</span>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<br />
+<h2>4 Milyon Plaka İçerisinde Arama Yapın (DAPPER)</h2>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Plaka</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Yıl</th>
+                <th>Yakıt</th>
+                <th>Vites</th>
+                <th>Renk</th>
+                <th>Kasa</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ResultSearchedPlates)
+            {
+                <tr>
+                    <td>@item.PLATE</td>
+                    <td>@item.BRAND</td>
+                    <td>@item.MODEL</td>
+                    <td>@item.YEAR_</td>
+                    <td>@item.FUEL</td>
+                    <td>@item.SHIFTTYPE</td>
+                    <td>@item.COLOR</td>
+                    <td>@item.CASETYPE</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<hr />
+<form asp-controller="Dashboard" asp-action="Index" method="get">
+    <div class="row">
+        <div class="col-8">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="34 ABC" name="searchedPlate">
+                <div class="input-group-append">
+                    <button class="btn btn-primary">Ara ve Karşılaştırmayı Gör!  <i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <br />
+            <span>
+                <strong>Dapper</strong> Liste Getirme Süresi: @ViewBag.timeSpanDapper saniye
+            </span>
+            <br />
+            <span>
+                <strong>Entity Framework</strong> Liste Getirme Süresi: @ViewBag.timeSpanEf saniye
+            </span>
+        </div>
+    </div>
+    <br />
+</form>
+<hr />
+<br />
+<h2>4 Milyon Plaka İçerisinde Arama Yapın (ENTITY FRAMEWORK)</h2>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Plaka</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Yıl</th>
+                <th>Yakıt</th>
+                <th>Vites</th>
+                <th>Renk</th>
+                <th>Kasa</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ResultPlateSearchEf)
+            {
+                <tr>
+                    <td>@item.PLATE</td>
+                    <td>@item.BRAND</td>
+                    <td>@item.MODEL</td>
+                    <td>@item.YEAR_</td>
+                    <td>@item.FUEL</td>
+                    <td>@item.SHIFTTYPE</td>
+                    <td>@item.COLOR</td>
+                    <td>@item.CASETYPE</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<hr />
+<br />
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(DrawonLoad);
+
+    function DrawonLoad() {
+        $(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/ColorCount/',
+                success: function (chartsdata) {
+                    var Data = chartsdata.jsonlist;
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'color');
+                    data.addColumn('number', 'colorCount');
+
+                    for (var i = 0; i < Data.length; i++) {
+                        data.addRow([Data[i].color, Data[i].colorCount]);
+                    }
+
+                    var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+
+                    chart.draw(data,
+                        {
+                            title: "Arabalarda En Çok Tercih Edilen Renkler",
+                            position: "top",
+                            fontsize: "16px"
+                        });
+                }
+            });
+        })
+    }
+
+</script>
+<script type="text/javascript">
+
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(DrawonLoad);
+
+    function DrawonLoad() {
+        $(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/FuelCountList/',
+                success: function (chartsdata) {
+                    var Data = chartsdata.jsonlist;
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Yakıt Türü');
+                    data.addColumn('number', 'Yakıta Sahip Araç Sayısı');
+
+                    for (var i = 0; i < Data.length; i++) {
+                        data.addRow([Data[i].fuel, Data[i].fuelCount]);
+                    }
+
+                    var chart = new google.visualization.AreaChart(document.getElementById('chartdivfuel'));
+
+                    chart.draw(data,
+                        {
+                            title: "En Çok Tercih Edilen Yakıt Türleri",
+                            position: "top",
+                            fontsize: "16px"
+                        });
+                }
+            });
+        })
+    }
+
+</script>
+
+
+
+
 
