@@ -1,5 +1,5 @@
 # DapperDashboardProject
-Dapper &amp; AspNetCore6.0 ile hazırlanan Google Charts ve Auto Mapper kullanılan tek sayfalık mini dashboard projesidir. Dapper pratiği için Kaggle üzerinden alınan 4 milyon satırlık 'Araç Plakası' veritabanı kullanılmıştır. Proje içerisinde Entity Framework ile Dapper arasındaki farkı gözlemlemek üzere aynı anahtar kelime üzerinden plaka araması yapılmıştır. Fark saniye cinsinden gösterilmektedir.
+Dapper &amp; .Net 6.0 ile hazırlanan Google Charts ve Auto Mapper kullanılan tek sayfalık mini dashboard projesidir. Dapper pratiği için Kaggle üzerinden alınan 4 milyon satırlık 'Araç Plakası' veritabanı kullanılmıştır. Proje içerisinde Entity Framework ile Dapper arasındaki farkı gözlemlemek üzere aynı anahtar kelime üzerinden plaka araması yapılmıştır. Fark saniye cinsinden gösterilmektedir.
 
 ## Video
 
